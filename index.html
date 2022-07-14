@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link href="css/page.css" rel="stylesheet" />
+
+  <script src="js/html2canvas.min.js"> </script>
+  <script src="js/page.js"></script>
+
+
+</head>
+
+<body>
+
+
+  <button class="openbtn" onclick="openNav()">...</button>
+
+  <input type="color" class="colorbtn" id="colorPicker" onchange="colorChange();" />
+
+  <button class="loadArtWork" onclick="document.getElementById('uploadFile').click();">Upload
+    Artwork</button>
+  <input type="file" id="uploadFile" style="display:none" accept="image/png, image/jpeg" onchange="uploadArtwork()" />
+
+  <div id="mySidebar" class="sidebar">
+    <h1 style="margin-left: 80px;">Menu</h1>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">x</a>
+    <a href="#" onclick="takeshot();">Save & Download</a>
+    <a href="#" onclick="openCropMenu();">Crop</a>
+    <br><br><br>
+    <h3 style="color:darkslategray; margin-left: 20px; ">Image Toolbox 1.0</h3>
+  </div>
+
+  <div id="screen">
+    <div id="layer-wall" onclick="itemClick('layer-wall');">
+      <img src="img/walls/wall-1.png" id="layer-wall-img" />
+      <canvas id="layer-wall-can"></canvas>
+    </div>
+
+    <div id="layer-back" onclick="backClick()">
+      <img src="img/back.png" id="layer-back-img" />
+    </div>
+
+    <div id="layer-chairback">
+      <img src="img/chairback.png" id="layer-chairback-img" />
+    </div>
+
+    <div id="layer-lamp">
+      <img src="img/lamp.png" id="layer-lamp-img" />
+    </div>
+
+    <div id="layer-desk">
+      <img src="img/desk.png" id="layer-desk-img" />
+    </div>
+
+    <div id="layer-piece">
+      <img src="img/piece.png" id="layer-piece-img" />
+    </div>
+
+    <div id="layer-table">
+      <img src="img/table.png" id="layer-table-img" />
+    </div>
+
+    <div id="layer-chair" onclick="itemClick('layer-chair');">
+      <img src="img/chair.png" id="layer-chair-img" />
+      <canvas id="layer-chair-can"></canvas>
+    </div>
+
+    <div id="layer-sofa" onclick="itemClick('layer-sofa');">
+      <img src="img/sofa.png" id="layer-sofa-img" />
+      <canvas id="layer-sofa-can"></canvas>
+    </div>
+
+    <div id="layer-pillow" onclick="itemClick('layer-pillow');">
+      <img src="img/pillow.png" id="layer-pillow-img" />
+      <canvas id="layer-pillow-can"></canvas>
+    </div>
+
+    <div id="layer-towel" onclick="itemClick('layer-towel');">
+      <img src="img/towel.png" id="layer-towel-img" />
+      <canvas id="layer-towel-can"></canvas>
+    </div>
+
+    <div id="layer-brown" onclick="itemClick('layer-brown');">
+      <img src="img/brown.png" id="layer-brown-img" />
+      <canvas id="layer-brown-can"></canvas>
+    </div>
+  </div>
+  <div id="crop-div" style="display:none">
+    <div id="crop-area-div">
+      <img src="img/frame.png" style="width: 100%; height: 100%;" />
+    </div>
+  </div>
+
+  <div id="crop-menu" style="display:none">
+    <label for="x_val" class="lbl_num">X:</label>
+    <input type="number" class="txt_num" id="x_val" value=100 min=1 max=999 onchange="positionValueChanged();" />
+
+    <label for="y_val" class="lbl_num">Y:</label>
+    <input type="number" class="txt_num" id="y_val" value=100 min=1 max=617 onchange="positionValueChanged();" />
+
+    <label for="w_val" class="lbl_num" max="1000">Width:</label>
+    <input type="number" class="txt_num" id="w_val" value=800 min=1 max=1000 onchange="positionValueChanged();" />
+
+    <label for="h_val" class="lbl_num">Height:</label>
+    <input type="number" class="txt_num" id="h_val" value=418 min=1 max=618 onchange="positionValueChanged();" />
+
+    <button class="cropbutton cropsave" onclick="cropSave();">Save</button>
+    <button class="cropbutton" onclick="cropCancel();">Cancel</button>
+
+    <button onclick="cropCancel();" class="closeCropButton">×</button>
+  </div>
+
+
+  <div id="wall-menu" style="display: none">
+    <button onclick="selectStyle(1);" class="styleItem" style="background-image: url('img/walls/wall-1.png');"></button>
+    <button onclick="selectStyle(2);" class="styleItem" style="background-image: url('img/walls/wall-2.png');"></button>
+    <button onclick="selectStyle(3);" class="styleItem" style="background-image: url('img/walls/wall-3.png');"></button>
+    <button onclick="selectStyle(4);" class="styleItem" style="background-image: url('img/walls/wall-4.png');"></button>
+    <button onclick="selectStyle(5);" class="styleItem" style="background-image: url('img/walls/wall-5.png');"></button>
+    <button onclick="selectStyle(6);" class="styleItem" style="background-image: url('img/walls/wall-6.png');"></button>
+    <button onclick="selectStyle(7);" class="styleItem" style="background-image: url('img/walls/wall-7.png');"></button>
+    <button onclick="selectStyle(8);" class="styleItem" style="background-image: url('img/walls/wall-8.png');"></button>
+  </div>
+
+  <div id="layer-artwork">
+    <div id="layer-artwork-header"></div>
+    <img id="layer-artwork-img" src="img/artwork.png" />
+
+    <img style="position: absolute; left: 0px; top: 0px; width: 100%; height: 20px; z-index: 12;"
+      src="img/frames/top-l.jpg"></img>
+    <img style="position: absolute; left: 0px; top: 0px; width: 20px; height: 100%; z-index: 12;"
+      src="img/frames/left-l.jpg"></img>
+    <img style="position: absolute; left: 0px; bottom: 0px; width: 100%; height: 20px; z-index: 12;"
+      src="img/frames/bottom-l.jpg"></img>
+    <img style="position: absolute; right: 0px; bottom: 0px; width: 20px; height: 100%; z-index: 12;"
+      src="img/frames/right-l.jpg"></img>
+  </div>
+
+  <div id="output"></div>
+
+</body>
+
+<script>
+  dragElement(document.getElementById("layer-artwork"));
+</script>
+
+</html>
